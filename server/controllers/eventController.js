@@ -91,7 +91,34 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-exports.deleteEvent = async (req, res) => {
+exports.softDeleteEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+
+    if (!event || event.isDeleted) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // 🔐 ownership check
+    if (event.organizerId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    event.isDeleted = true;
+    event.status = 'cancelled';
+
+    await event.save();
+
+    res.status(200).json({
+      message: 'Event soft deleted successfully',
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+exports.hardDeleteEvent = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id);
 
@@ -106,7 +133,39 @@ exports.deleteEvent = async (req, res) => {
 
     await event.deleteOne();
 
-    res.status(200).json({ message: 'Event deleted successfully' });
+    res.status(200).json({
+      message: 'Event permanently deleted',
+    });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.updateEventStatus = async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!['upcoming', 'past', 'cancelled'].includes(status)) {
+      return res.status(400).json({ message: 'Invalid status' });
+    }
+
+    const event = await Event.findById(req.params.id);
+
+    if (!event || event.isDeleted) {
+      return res.status(404).json({ message: 'Event not found' });
+    }
+
+    // 🔐 ownership check
+    if (event.organizerId.toString() !== req.user.userId) {
+      return res.status(403).json({ message: 'Not authorized' });
+    }
+
+    event.status = status;
+    await event.save();
+
+    res.status(200).json({
+      message: 'Event status updated successfully',
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }

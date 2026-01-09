@@ -33,9 +33,20 @@ const eventSchema = new mongoose.Schema(
 
         status: {
             type: String,
-            enum: ['upcoming', 'past'],
+            enum: ['upcoming', 'past', 'cancelled'],
             default: 'upcoming',
         },
+
+        capacity: {
+            type: Number,
+            required: true,
+        },
+        
+        isDeleted: {
+            type: Boolean,
+            default: false,
+        },
+
     },
     { timestamps: true }
 );
