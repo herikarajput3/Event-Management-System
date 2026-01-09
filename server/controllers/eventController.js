@@ -24,3 +24,27 @@ exports.createEvent = async (req, res) => {
         res.status(500).json({ message: 'Server error' });
     }
 };
+
+exports.getAllEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ status: 'upcoming' })
+      .sort({ date: 1 })
+      .populate('organizerId', 'name');
+
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getMyEvents = async (req, res) => {
+  try {
+    const events = await Event.find({
+      organizerId: req.user.userId,
+    }).sort({ date: -1 });
+
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
