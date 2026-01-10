@@ -67,7 +67,7 @@ exports.getMyEvents = async (req, res) => {
 
 exports.updateEvent = async (req, res) => {
   try {
-    const event = await Event.findById(re.params.id);
+    const event = await Event.findById(req.params.id);
 
     if (!event) {
       return res.status(404).json({ message: 'Event not found' });
@@ -110,13 +110,12 @@ exports.softDeleteEvent = async (req, res) => {
     await event.save();
 
     res.status(200).json({
-      message: 'Event soft deleted successfully',
+      message: 'Event deleted successfully',
     });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
   }
 };
-
 
 exports.hardDeleteEvent = async (req, res) => {
   try {
