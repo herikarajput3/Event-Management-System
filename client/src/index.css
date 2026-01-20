@@ -1,5 +1,29 @@
 @import "tailwindcss";
 
 @plugin "daisyui" {
-    themes: light --default, corporate;
+    themes: [ {
+        eventify: {
+            "primary": "#4F46E5",
+                /* Indigo - main actions */
+                "secondary": "#111827",
+                /* Almost black */
+                "accent": "#22C55E",
+                /* Success / highlight */
+                "neutral": "#1F2937",
+
+                "base-100": "#FFFFFF",
+                /* cards */
+                "base-200": "#F3F4F6",
+                /* page bg */
+                "base-300": "#E5E7EB",
+                /* borders / dividers */
+
+                "info": "#0284C7",
+                "success": "#16A34A",
+                "warning": "#D97706",
+                "error": "#DC2626",
+        }
+    }
+
+    ];
 }

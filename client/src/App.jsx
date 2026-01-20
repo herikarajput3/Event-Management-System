@@ -3,6 +3,8 @@ import PublicLayout from './layouts/PublicLayout'
 import AuthLayout from './layouts/AuthLayout'
 import DashboardLayout from './layouts/DashboardLayout'
 import { AuthProvider } from './context/AuthContext'
+import Login from './pages/Login'
+import Register from './pages/Register'
 
 function App() {
 
@@ -19,17 +21,17 @@ function App() {
               </Route>
 
               <Route element={<AuthLayout />}>
-                {/* <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} /> */}
+                <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
               </Route>
 
               <Route
                 path="/dashboard"
-                element={
-                  <ProtectedRoute>
-                    <DashboardLayout />
-                  </ProtectedRoute>
-                }
+                // element={
+                //   <ProtectedRoute>
+                //     <DashboardLayout />
+                //   </ProtectedRoute>
+                // }
               >
                 {/* <Route index element={<DashboardHome />} /> */}
                 {/* <Route path="events" element={<MyEvents />} /> */}
