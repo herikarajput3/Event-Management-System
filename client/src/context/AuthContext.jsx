@@ -46,7 +46,9 @@ export const AuthProvider = ({ children }) => {
       const res = await axiosInstance.get("/users/me");
       setUser(res.data.user);
     } catch (err) {
-      logout();
+      if (err.isAuthError) {
+        logout();
+      }
     } finally {
       setLoading(false);
     }
@@ -56,21 +58,21 @@ export const AuthProvider = ({ children }) => {
     loadUser();
   }, []);
 
-return (
-  <AuthContext.Provider
-    value={{
-      user,
-      token,
-      isAuthenticated: !!user,
-      loading,
-      register,
-      login,
-      logout,
-    }}
-  >
-    {children}
-  </AuthContext.Provider>
-);
+  return (
+    <AuthContext.Provider
+      value={{
+        user,
+        token,
+        isAuthenticated: !!user,
+        loading,
+        register,
+        login,
+        logout,
+      }}
+    >
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = () => useContext(AuthContext);

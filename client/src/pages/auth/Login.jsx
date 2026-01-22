@@ -1,6 +1,41 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useState } from "react";
 
 const Login = () => {
+    const navigate = useNavigate();
+    const { login } = useAuth();
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+    });
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleChange = (e) => {
+        setForm({
+            ...form,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+        setError("");
+        try {
+            await login(form);
+            navigate("/");
+        } catch (err) {
+            console.log("Login error", err);
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <div className="w-full">
             {/* Heading section */}
@@ -14,7 +49,7 @@ const Login = () => {
             </div>
 
             {/* Form */}
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit}>
                 {/* Email */}
                 <div className="flex flex-col gap-2">
                     <label className="label pb-0">
@@ -24,11 +59,14 @@ const Login = () => {
                     </label>
                     <input
                         type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
                         placeholder="email@example.com"
                         className="input input-bordered h-11 w-full focus:outline-none focus:border-primary"
                     />
                 </div>
-    
+
                 {/* Password */}
                 <div className="flex flex-col gap-2">
                     <label className="label pb-0">
@@ -38,27 +76,34 @@ const Login = () => {
                     </label>
                     <input
                         type="password"
+                        name="password"
+                        value={form.password}
+                        onChange={handleChange}
                         placeholder="••••••••"
                         className="input input-bordered h-11 w-full focus:outline-none focus:border-primary"
                     />
                 </div>
 
                 {/* Forgot password */}
-                <div className="text-right">
+                {/* <div className="text-right">
                     <Link
                         to="/forgot-password"
                         className="text-sm text-primary hover:underline"
                     >
                         Forgot password?
                     </Link>
-                </div>
+                </div> */}
+
+                {error && (
+                    <p className="text-sm text-error">{error}</p>
+                )}
 
                 {/* Primary action */}
                 <button
                     type="submit"
                     className="btn btn-primary w-full h-11 text-base font-medium"
                 >
-                    Login
+                    {loading ? "Logging in..." : "Log in"}
                 </button>
             </form>
 

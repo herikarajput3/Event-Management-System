@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const Register = () => {
     const navigate = useNavigate();
+    const { register } = useAuth();
 
     const [form, setForm] = useState({
         name: "",
@@ -26,21 +28,10 @@ const Register = () => {
         setLoading(true);
         setError("");
         try {
-            const res = await fetch("/auth/register", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(form),
-            });
-
-            if (!res.ok) {
-                throw new Error("Registration failed");
-            }
-
-            // success → go to home
+            await register(form);
             navigate("/");
         } catch (err) {
+            console.log("Register error", err);
             setError(err.message);
         } finally {
             setLoading(false);

@@ -3,8 +3,8 @@ import PublicLayout from './layouts/PublicLayout'
 import AuthLayout from './layouts/AuthLayout'
 import DashboardLayout from './layouts/DashboardLayout'
 import { AuthProvider } from './context/AuthContext'
-import Login from './pages/Login'
-import Register from './pages/Register'
+import Login from './pages/auth/Login'
+import Register from './pages/auth/Register'
 
 function App() {
 

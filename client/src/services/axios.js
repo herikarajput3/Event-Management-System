@@ -13,14 +13,22 @@ axiosInstance.interceptors.request.use((config) => {
         config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
-})
+},
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
 // Response
 axiosInstance.interceptors.response.use(
     (res) => res,
     (error) => {
+        const status = error.response?.status;
         const message = error.response?.data?.message || "Something went wrong";
         toast.error(message);
+        if (status === 401) {
+            error.isAuthError = true;
+        }
         return Promise.reject(error);
     }
 );
