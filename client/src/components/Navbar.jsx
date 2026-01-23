@@ -1,43 +1,76 @@
-import { Link } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { Link, NavLink } from "react-router-dom";
 
 const Navbar = () => {
-  const { user, logout } = useAuth();
-
   return (
-    <div className="navbar bg-base-100 shadow">
-      <div className="container mx-auto px-4">
-        <div className="flex-1">
-          <Link to="/" className="text-xl font-bold">
-            Eventify
+    <header className="bg-base-100 border-b border-base-300">
+      <div className="navbar max-w-6xl mx-auto px-4">
+
+        {/* Left: Logo */}
+        <div className="navbar-start">
+          <Link
+            to="/"
+            className="text-xl font-bold tracking-wide"
+          >
+            Event<span className="text-primary">Hub</span>
           </Link>
         </div>
 
-        <div className="flex-none">
-          {!user ? (
-            <ul className="menu menu-horizontal px-1">
-              <li><Link to="/login">Login</Link></li>
-              <li>
-                <Link to="/register" className="btn btn-primary btn-sm">
-                  Register
-                </Link>
-              </li>
-            </ul>
-          ) : (
-            <ul className="menu menu-horizontal px-1">
-              <li>
-                <span className="font-medium">
-                  Hi, {user.name}
-                </span>
-              </li>
-              <li>
-                <button onClick={logout}>Logout</button>
-              </li>
-            </ul>
-          )}
+        {/* Center: Links */}
+        <div className="navbar-center hidden md:flex">
+          <nav className="flex gap-6 text-sm font-medium">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary"
+                  : "text-base-content/70 hover:text-primary"
+              }
+            >
+              Home
+            </NavLink>
+
+            <NavLink
+              to="/events"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary"
+                  : "text-base-content/70 hover:text-primary"
+              }
+            >
+              Events
+            </NavLink>
+
+            <NavLink
+              to="/about"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-primary"
+                  : "text-base-content/70 hover:text-primary"
+              }
+            >
+              About
+            </NavLink>
+          </nav>
+        </div>
+
+        {/* Right: Auth actions (static for now) */}
+        <div className="navbar-end gap-2">
+          <Link
+            to="/login"
+            className="btn btn-ghost btn-sm"
+          >
+            Login
+          </Link>
+
+          <Link
+            to="/register"
+            className="btn btn-primary btn-sm"
+          >
+            Register
+          </Link>
         </div>
       </div>
-    </div>
+    </header>
   );
 };
 
