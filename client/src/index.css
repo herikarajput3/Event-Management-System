@@ -1,18 +1,37 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
-@theme eventify {
-  --p: #4F46E5;      /* primary */
-  --s: #111827;      /* secondary */
-  --a: #22C55E;      /* accent */
-  --n: #1F2937;      /* neutral */
+[data-theme="eventify"] {
+  --p: #4F46E5;
+  /* primary */
+  --s: #111827;
+  /* secondary */
+  --a: #22C55E;
+  /* accent */
+  --n: #1F2937;
+  /* neutral */
 
-  --b1: #FFFFFF;     /* base-100 */
-  --b2: #F3F4F6;     /* base-200 */
-  --b3: #E5E7EB;     /* base-300 */
+  --b1: #FFFFFF;
+  /* base-100 */
+  --b2: #F3F4F6;
+  /* base-200 */
+  --b3: #E5E7EB;
+  /* base-300 */
 
-  --in: #0284C7;     /* info */
-  --su: #16A34A;     /* success */
-  --wa: #D97706;     /* warning */
-  --er: #DC2626;     /* error */
+  --in: #0284C7;
+  /* info */
+  --su: #16A34A;
+  /* success */
+  --wa: #D97706;
+  /* warning */
+  --er: #DC2626;
+  /* error */
+}
+
+:root {
+  --font-sans: "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
 }

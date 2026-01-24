@@ -1,8 +1,13 @@
-import React from 'react'
+import HeroSection from '../components/home/HeroSection'
 
 const Home = () => {
   return (
-    <div>Home</div>
+    <main>
+      <section aria-label="EventHub introduction">
+        <HeroSection />
+      </section>
+    </main>
+
   )
 }
 
