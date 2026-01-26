@@ -7,6 +7,7 @@ import Login from './pages/auth/Login'
 import Register from './pages/auth/Register'
 import Loader from './components/Loader'
 import Home from './pages/Home'
+import Event from './pages/Event'
 
 function App() {
   // const { loading } = useAuth();
@@ -25,7 +26,7 @@ function App() {
                 {/* <Route path='/' element={<Loader fullScreen text="Preparing your experience…" />
                 } /> */}
                 <Route path="/" element={<Home />} />
-                {/* <Route path="/events" element={<EventList />} /> */}
+                <Route path="/events" element={<Event />} />
                 {/* <Route path="/events/:id" element={<EventDetails />} /> */}
               </Route>
 
