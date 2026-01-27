@@ -1,37 +1,30 @@
+import { useEffect, useState } from "react";
 import EventsGrid from "../components/events/EventsGrid";
-
-const mockEvents = [
-    {
-        _id: "1",
-        title: "React Meetup",
-        date: "2026-02-10T10:00:00.000Z",
-        location: "Delhi",
-        organizerId: { name: "EventHub Team" },
-    },
-    {
-        _id: "2",
-        title: "JavaScript Conference",
-        date: "2026-03-05T09:00:00.000Z",
-        location: "Mumbai",
-        organizerId: { name: "JS India" },
-    },
-    {
-        _id: "1",
-        title: "React Meetup",
-        date: "2026-02-10T10:00:00.000Z",
-        location: "Delhi",
-        organizerId: { name: "EventHub Team" },
-    },
-    {
-        _id: "2",
-        title: "JavaScript Conference",
-        date: "2026-03-05T09:00:00.000Z",
-        location: "Mumbai",
-        organizerId: { name: "JS India" },
-    },
-];
+import axiosInstance from "../services/axios";
+import Loader from "../components/Loader";
+import { useAuth } from "../context/AuthContext";
 
 export default function Event() {
+    const { user } = useAuth();
+    const [events, setEvents] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        async function fetchEvents() {
+            try {
+                const response = await axiosInstance.get("/events");
+                setEvents(response.data);
+            } catch (error) {
+                console.error("Error fetching events:", error);
+                setError("Failed to load events. Please try again.");
+
+            } finally {
+                setLoading(false);
+            }
+        }
+        fetchEvents();
+    }, []);
     return (
         <div className="px-4 sm:px-6 py-12">
             <div className="text-center max-w-2xl mx-auto">
@@ -44,8 +37,51 @@ export default function Event() {
 
             </div>
 
-            <div className="mt-12">
-                <EventsGrid events={mockEvents} />
+            <div className="mt-16">
+                {loading ? (
+                    <Loader />
+                ) : error ? (
+                    <div className="text-center py-20 text-error">
+                        {error}
+                    </div>
+                ) : events.length === 0 ? (
+                    <div className="flex justify-center">
+                        <div className="max-w-md w-full rounded-2xl bg-base-200 p-10 text-center">
+                            {/* Icon */}
+                            <div className="mx-auto mb-6 flex h-14 w-14 items-center justify-center rounded-full bg-primary/10 text-primary">
+                                📅
+                            </div>
+
+                            {/* Title */}
+                            <h3 className="text-lg font-semibold">
+                                No upcoming events
+                            </h3>
+
+                            {/* Description */}
+                            <p className="mt-2 text-sm opacity-70">
+                                There are no scheduled events at the moment.
+                                {user?.role === "organizer"
+                                    ?
+                                    "Be the first to create one."
+                                    : " Please check back later."}
+                            </p>
+
+                            {/* CTA */}
+                            {user?.role === "organizer" && (
+                                <div className="mt-6">
+                                    <button className="btn btn-sm btn-primary">
+                                        Create an event
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                ) : (
+                    <EventsGrid events={events} />
+                )}
+
+
             </div>
 
         </div>
