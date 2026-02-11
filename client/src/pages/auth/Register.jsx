@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import toast from "react-hot-toast";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -14,7 +15,6 @@ const Register = () => {
     })
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
 
     const handleChange = (e) => {
         setForm({
@@ -26,13 +26,17 @@ const Register = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        setError("");
         try {
             await register(form);
+            toast.success("Account created successfully 🎉");
             navigate("/");
         } catch (err) {
             console.log("Register error", err);
-            setError(err.message);
+            const message =
+                err.response?.status === 409
+                    ? "This email is already registered. Please log in."
+                    : err.response?.data?.message || "Something went wrong. Try again.";
+            // toast.error(message);
         } finally {
             setLoading(false);
         }
@@ -137,16 +141,11 @@ const Register = () => {
                     </div>
                 </div>
 
-                {/* Error */}
-                {error && (
-                    <p className="text-sm text-error">{error}</p>
-                )}
-
                 {/* submit */}
                 <button
                     type="submit"
                     disabled={loading}
-                    className="btn btn-primary w-full h-11 text-base font-medium"
+                    className="btn btn-primary w-full h-11 text-base font-medium disabled:opacity-70"
                 >
                     {loading ? "Creating account..." : "Create account"}
                 </button>

@@ -7,7 +7,7 @@ import {
 
 export default function HowItWorksSection() {
     return (
-        <section className="bg-base-200 py-24 px-4 sm:px-6">
+        <section className="bg-base-200 py-10 md:py-24 px-2 md:px-4">
             <div className="max-w-6xl mx-auto text-center">
                 <h2 className="text-2xl sm:text-3xl font-semibold">
                     How Event<span className="text-primary">Hub</span> works

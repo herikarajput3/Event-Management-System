@@ -8,6 +8,7 @@ import Register from './pages/auth/Register'
 import Loader from './components/Loader'
 import Home from './pages/Home'
 import Event from './pages/Event'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   // const { loading } = useAuth();
@@ -18,6 +19,12 @@ function App() {
 
   return (
     <>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 4000,
+        }}
+      />
       <div className="min-h-screen">
         <AuthProvider>
           <Router>
