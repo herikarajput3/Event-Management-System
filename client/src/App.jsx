@@ -9,6 +9,9 @@ import Loader from './components/Loader'
 import Home from './pages/Home'
 import Event from './pages/Event'
 import { Toaster } from 'react-hot-toast'
+import CreateEvent from './pages/CreateEvent'
+import ProtectedRoute from './routes/ProtectedRoute'
+import DashboardHome from './pages/dashboard/DashboardHome'
 
 function App() {
   // const { loading } = useAuth();
@@ -42,18 +45,16 @@ function App() {
                 <Route path="/register" element={<Register />} />
               </Route>
 
-              <Route
-                path="/dashboard"
-              // element={
-              //   <ProtectedRoute>
-              //     <DashboardLayout />
-              //   </ProtectedRoute>
-              // }
-              >
-                {/* <Route index element={<DashboardHome />} /> */}
-                {/* <Route path="events" element={<MyEvents />} /> */}
-                {/* <Route path="events/new" element={<CreateEvent />} /> */}
+              <Route element={<ProtectedRoute />}>
+
+                <Route path="/dashboard" element={<DashboardLayout />}>
+                  <Route index element={<DashboardHome />} />
+                  <Route path="events/new" element={<CreateEvent />} />
+                </Route>
+
               </Route>
+
+
 
             </Routes>
           </Router>

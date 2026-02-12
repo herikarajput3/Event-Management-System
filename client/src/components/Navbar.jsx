@@ -8,7 +8,7 @@ const Navbar = () => {
   ];
 
   if (user?.role === "organizer") {
-    navLinks.push({ to: "/create-event", label: "Create Event" });
+    navLinks.push({ to: "/dashboard/events/new", label: "Create Event" });
   }
 
   navLinks.push({ to: "/about", label: "About" });
